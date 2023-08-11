@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a20018a1a3ad4ebce3e19b48461dd1a",
+    "content-hash": "086677ffe2ba4c805da1883a33e5683b",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -885,6 +885,64 @@
                 }
             ],
             "time": "2023-07-08T12:03:30+00:00"
+        },
+        {
+            "name": "leafs/fetch",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafsphp/fetch.git",
+                "reference": "f214dda6131c830ed19310dfdfd57a244f5bbd08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafsphp/fetch/zipball/f214dda6131c830ed19310dfdfd57a244f5bbd08",
+                "reference": "f214dda6131c830ed19310dfdfd57a244f5bbd08",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Leaf\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Darko",
+                    "email": "mickdd22@gmail.com",
+                    "homepage": "https://mychi.netlify.app",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Plain simple PHP http client",
+            "homepage": "https://github.com/leafsphp/redis",
+            "keywords": [
+                "client",
+                "fetch",
+                "http",
+                "leaf",
+                "network",
+                "php",
+                "xhr"
+            ],
+            "support": {
+                "issues": "https://github.com/leafsphp/fetch/issues",
+                "source": "https://github.com/leafsphp/fetch/tree/v0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/leaf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2021-06-04T17:47:10+00:00"
         },
         {
             "name": "leafs/http",
