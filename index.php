@@ -15,15 +15,13 @@ app()->get('/', function () {
   response()->page('./welcome.html');
 });
 
-app()->get('/posts', function () {
-  global $blade;
-
-  $posts = db()->select('posts')->all();
-  foreach ($posts as &$post) {
-    $url = "http://" . $post["path"];
+function fetchPost($url)
+{
+  $postContent = "";
+  try {
     $res = Fetch::request([
       "method" => "GET",
-      "url" => "http://" . $post["path"],
+      "url" => $url,
       "rawResponse" => true,
     ]);
     $doc = new DOMDocument();
@@ -36,11 +34,22 @@ app()->get('/posts', function () {
       $content = $meta->getAttribute('content');
 
       if ($name === "did:content") {
-        $post["content"] = $content;
+        $postContent .= $content;
       }
     }
-    // var_dump($metas);
-    // die();
+  } catch (Exception $e) {
+  }
+  return $postContent . "--DATA";
+}
+
+app()->get('/posts', function () {
+  global $blade;
+
+  $posts = db()->select('posts')->all();
+  foreach ($posts as &$post) {
+    $url = "http://" . $post["path"];
+    $content = fetchPost($url);
+    $post['content'] = $content;
   }
   echo $blade->make('posts', ['posts' => $posts])->render();
 });
