@@ -2,12 +2,17 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+try {
+  \Dotenv\Dotenv::createUnsafeImmutable(__DIR__)->load();
+} catch (\Throwable $th) {
+  trigger_error($th);
+}
+
 use Leaf\Blade;
 use Leaf\Fetch;
 //use function Leaf\fetch;
 
 $blade = new Blade('views', 'views/cache');
-$db = new App\Db();
 
 app()->get('/', function () {
   response()->page('./welcome.html');
@@ -41,7 +46,8 @@ function fetchPost($url)
 }
 
 app()->get('/posts', function () {
-  global $blade, $db;
+  global $blade;
+  $db = new App\Db();
   $posts = $db->getPosts();
   foreach ($posts as &$post) {
     $url = "http://" . $post["path"];

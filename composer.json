@@ -8,6 +8,7 @@
     "leafs/leaf": "^3.0",
     "leafs/db": "^2.1",
     "leafs/blade": "^1.2",
-    "leafs/fetch": "^0.1.0"
+    "leafs/fetch": "^0.1.0",
+    "vlucas/phpdotenv": "^5.4"
   }
 }
