@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
+
 use Leaf\Blade;
 use Leaf\Fetch;
 //use function Leaf\fetch;
@@ -11,37 +12,37 @@ $blade = new Blade('views', 'views/cache');
 db()->connect(['dbtype' => 'sqlite', 'dbname' => '../instance-nodejs/did.db']);
 
 app()->get('/', function () {
-	response()->page('./welcome.html');
+  response()->page('./welcome.html');
 });
 
 app()->get('/posts', function () {
-	global $blade;
+  global $blade;
 
-	$posts = db()->select('posts')->all();
-	foreach ($posts as &$post) {
-		$url = "http://" . $post["path"];
-		$res = Fetch::request([
-			"method" => "GET",
-			"url" => "http://" . $post["path"],
-			"rawResponse" => true,
-		]);
-		$doc = new DOMDocument();
-		$doc->loadHTML($res->data);
-		$metas = $doc->getElementsByTagName('meta');
-		// $res = fetch("http://" + $post["domain"] + "/" + $post["path"]);
-		$post["content"] = "YES";
-		foreach ($metas as $meta) {
-			$name = $meta->getAttribute('name');
-			$content = $meta->getAttribute('content');
-	
-			if ($name === "did:content") {
-				$post["content"] = $content;
-			}
-		}
-		// var_dump($metas);
-		// die();
-	}
-	echo $blade->make('posts', ['posts' => $posts])->render();
+  $posts = db()->select('posts')->all();
+  foreach ($posts as &$post) {
+    $url = "http://" . $post["path"];
+    $res = Fetch::request([
+      "method" => "GET",
+      "url" => "http://" . $post["path"],
+      "rawResponse" => true,
+    ]);
+    $doc = new DOMDocument();
+    $doc->loadHTML($res->data);
+    $metas = $doc->getElementsByTagName('meta');
+    // $res = fetch("http://" + $post["domain"] + "/" + $post["path"]);
+    $post["content"] = "YES";
+    foreach ($metas as $meta) {
+      $name = $meta->getAttribute('name');
+      $content = $meta->getAttribute('content');
+
+      if ($name === "did:content") {
+        $post["content"] = $content;
+      }
+    }
+    // var_dump($metas);
+    // die();
+  }
+  echo $blade->make('posts', ['posts' => $posts])->render();
 });
 
 app()->run();
