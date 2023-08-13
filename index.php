@@ -7,9 +7,7 @@ use Leaf\Fetch;
 //use function Leaf\fetch;
 
 $blade = new Blade('views', 'views/cache');
-
-// db()->autoConnect(); should work from .env
-db()->connect(['dbtype' => 'sqlite', 'dbname' => '../instance-nodejs/did.db']);
+$db = new App\Db();
 
 app()->get('/', function () {
   response()->page('./welcome.html');
@@ -43,11 +41,12 @@ function fetchPost($url)
 }
 
 app()->get('/posts', function () {
-  global $blade;
-
-  $posts = db()->select('posts')->all();
+  global $blade, $db;
+  $posts = $db->getPosts();
   foreach ($posts as &$post) {
     $url = "http://" . $post["path"];
+    // try to read from DB
+    // if not existing in DB cache fetch from url
     $content = fetchPost($url);
     $post['content'] = $content;
   }
