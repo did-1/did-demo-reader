@@ -2,13 +2,12 @@
 
 namespace App;
 
-// db()->autoConnect(); should work from .env
+db()->autoConnect();
 
 class Db
 {
   public function __construct()
   {
-    db()->autoConnect();
     // db()->connect(['dbtype' => 'sqlite', 'dbname' => '../instance-nodejs/did.db']);
     db()->query("CREATE TABLE IF NOT EXISTS contents (
       url TEXT PRIMARY KEY,

@@ -1,0 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f6f8fa;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.post {
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #e1e8ed;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: #1da1f2;
+}
+
+.message {
+  margin: 5px 0 0;
+  color: #14171a;
+}
+
+.interactions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.retweets {
+  display: flex;
+  align-items: center;
+}
+
+.retweet-icon {
+  margin-right: 5px;
+}
+
+.retweet-count {
+  font-size: 14px;
+  color: #657786;
+}
+
+.comments {
+  display: flex;
+  align-items: center;
+  margin-left: 15px; /* Add some space between retweets and comments indicators */
+}
+
+.comment-icon {
+  margin-right: 5px;
+}
+
+.comment-count {
+  font-size: 14px;
+  color: #657786;
+}
+
+.post-link {
+  margin-left: 15px; /* Add some space between the previous interaction and this one */
+}
+
+.post-link-icon {
+  color: #1da1f2; /* Twitter's blue color for links */
+  text-decoration: none; /* Remove default underline from links */
+}
+
+.post-link-icon:hover {
+  text-decoration: underline; /* Add underline on hover for better user feedback */
+}
