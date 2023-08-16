@@ -13,10 +13,10 @@
     @foreach ($posts as $post)
     <div class="post">
       <div class="avatar">
-        <img src="path_to_avatar_image.jpg" alt="User Avatar">
+        <img class="pixelated" src="/avatar/?value={{$post['owner']}}" alt="User Avatar">
       </div>
       <div class="content">
-        <h3 class="username">{{$post['domain']}}</h3>
+        <h3 class="username">{{$post['owner']}}</h3>
         <p class="message">{{$post['content']}}</p>
         <div class="interactions">
           <span class="retweets">

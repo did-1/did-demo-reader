@@ -14,16 +14,24 @@ body {
   align-items: flex-start;
   background-color: #ffffff;
   border: 1px solid #e1e8ed;
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 5px;
   margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.post .content {
+  padding: 10px;
+}
+
+.avatar {
 }
 
 .avatar img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
+  width: 128px;
+  height: 128px;
+  /* border-radius: 50%; */
+  /* margin-right: 10px; */
 }
 
 .username {
@@ -84,4 +92,12 @@ body {
 
 .post-link-icon:hover {
   text-decoration: underline; /* Add underline on hover for better user feedback */
+}
+
+.pixelated {
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -webkit-optimize-contrast; /* Safari */
+  image-rendering: -o-crisp-edges; /* Opera */
+  image-rendering: pixelated; /* Chrome */
+  -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
 }

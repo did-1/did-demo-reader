@@ -42,8 +42,24 @@ function fetchPost($url)
     }
   } catch (Exception $e) {
   }
-  return $postContent . "--DATA";
+  return $postContent;
 }
+
+app()->get('/avatar', function () {
+  // Set max-age to a week to benefit from client caching (this is optional)
+  header('Cache-Control: max-age=604800');
+
+  // Parse query string parameters
+  $value = request()->get('value');
+  $size = 32;
+
+  // Render icon
+  $icon = new \Jdenticon\Identicon();
+  // $icon->configure(['padding' => 0]);
+  $icon->setValue($value);
+  $icon->setSize($size);
+  $icon->displayImage('png');
+});
 
 app()->get('/posts', function () {
   global $blade;
@@ -55,6 +71,7 @@ app()->get('/posts', function () {
     // if not existing in DB cache fetch from url
     $content = fetchPost($url);
     $post['content'] = $content;
+    $post['owner'] = explode("/", $post["path"])[0];
   }
   echo $blade->make('posts', ['posts' => $posts])->render();
 });
