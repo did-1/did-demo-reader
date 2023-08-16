@@ -20,7 +20,7 @@ app()->get('/', function () {
 
 function fetchPost($url)
 {
-  $postContent = "";
+  $postContent = [];
   try {
     $res = Fetch::request([
       "method" => "GET",
@@ -30,14 +30,12 @@ function fetchPost($url)
     $doc = new DOMDocument();
     $doc->loadHTML($res->data);
     $metas = $doc->getElementsByTagName('meta');
-    // $res = fetch("http://" + $post["domain"] + "/" + $post["path"]);
-    $post["content"] = "YES";
     foreach ($metas as $meta) {
       $name = $meta->getAttribute('name');
       $content = $meta->getAttribute('content');
 
       if ($name === "did:content") {
-        $postContent .= $content;
+        $postContent[] = $content;
       }
     }
   } catch (Exception $e) {
@@ -75,6 +73,7 @@ app()->get('/posts', function () {
     $content = fetchPost($url);
     $post['content'] = $content;
     $post['owner'] = explode("/", $post["path"])[0];
+    $post['url'] = $url;
   }
   echo $blade->make('posts', ['posts' => $posts])->render();
 });

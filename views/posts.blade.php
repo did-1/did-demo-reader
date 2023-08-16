@@ -17,7 +17,9 @@
       </div>
       <div class="content">
         <h3 class="username">{{$post['owner']}}</h3>
-        <p class="message">{{$post['content']}}</p>
+        @foreach ($post['content'] as $message)
+        <p class="message">{{$message}}</p>
+        @endforeach
         <div class="interactions">
           <span class="retweets">
             <span class="retweet-icon">🔁</span>
@@ -28,7 +30,7 @@
             <span class="comment-count">12</span>
           </span>
           <span class="post-link">
-            <a href="path_to_post_page.html" class="post-link-icon">🔗</a>
+            <a href="{{$post['url']}}" class="post-link-icon">🔗</a>
           </span>
         </div>
       </div>

@@ -50,6 +50,7 @@ body {
 .message {
   margin: 5px 0 0;
   color: #14171a;
+  margin-bottom: 1em;
 }
 
 .interactions {
