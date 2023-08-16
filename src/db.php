@@ -18,7 +18,12 @@ class Db
 
   public function getPosts()
   {
-    return db()->select("posts")->groupBy("path")->orderBy("inserted_at", "desc")->limit(500)->fetchAll();
+    return db()
+      ->select("posts", "COUNT(path) AS total, path")
+      ->groupBy("path")
+      ->orderBy("inserted_at", "desc")
+      ->limit(500)
+      ->fetchAll();
   }
 }
 

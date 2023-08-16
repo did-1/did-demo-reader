@@ -23,7 +23,7 @@
         <div class="interactions">
           <span class="retweets">
             <span class="retweet-icon">🔁</span>
-            <span class="retweet-count">25</span>
+            <span class="retweet-count">{{$post['total']}}</span>
           </span>
           <span class="comments">
             <span class="comment-icon">💬</span>
