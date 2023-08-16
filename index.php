@@ -14,6 +14,15 @@ use Leaf\Fetch;
 
 $blade = new Blade('views', 'views/cache');
 
+function convertUrlsToLinks($text)
+{
+  $pattern = '/(http:\/\/|https:\/\/|www\.)[a-z0-9\-_]+\.[a-z0-9\-_]+(\/[a-zA-Z0-9#\-_\/\?&%=]*)?/';
+
+  return preg_replace_callback($pattern, function ($matches) {
+    return '<a href="' . e($matches[0]) . '" target="_blank">' . e($matches[0]) . '</a>';
+  }, e($text));
+}
+
 app()->get('/', function () {
   response()->page('./welcome.html');
 });

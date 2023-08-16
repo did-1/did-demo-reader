@@ -18,7 +18,7 @@
       <div class="content">
         <h3 class="username">{{$post['owner']}}</h3>
         @foreach ($post['content'] as $message)
-        <p class="message">{{$message}}</p>
+        <p class="message">{!! convertUrlsToLinks($message) !!}</p>
         @endforeach
         <div class="interactions">
           <span class="retweets">
