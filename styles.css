@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f6f8fa;
   padding: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
 }
 
 .container {
@@ -38,7 +42,7 @@ body {
 
 .username {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
   margin: 0;
   color: #1da1f2;
 }
