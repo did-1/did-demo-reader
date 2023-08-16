@@ -55,7 +55,10 @@ app()->get('/avatar', function () {
 
   // Render icon
   $icon = new \Jdenticon\Identicon();
+  $style = new \Jdenticon\IdenticonStyle();
+  $style->setPadding(0);
   // $icon->configure(['padding' => 0]);
+  $icon->setStyle($style);
   $icon->setValue($value);
   $icon->setSize($size);
   $icon->displayImage('png');
