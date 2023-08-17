@@ -33,8 +33,8 @@ body {
 }
 
 .avatar img {
-  width: 128px;
-  height: 128px;
+  width: 64px;
+  height: 64px;
   display: block;
   border-radius: 5px;
   /* margin-right: 10px; */

@@ -13,7 +13,7 @@
     @foreach ($posts as $post)
     <div class="post">
       <div class="avatar">
-        <img class="pixelated" src="/avatar/?value={{$post['owner']}}" alt="User Avatar">
+        <img src="/avatar/?value={{$post['owner']}}" alt="User Avatar">
       </div>
       <div class="content">
         <h3 class="username">{{$post['owner']}}</h3>

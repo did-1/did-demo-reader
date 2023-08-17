@@ -27,8 +27,31 @@ app()->get('/', function () {
   response()->page('./welcome.html');
 });
 
-function fetchPost($url)
+function extractContent($data)
 {
+  $doc = new DOMDocument();
+  $doc->loadHTML($data);
+  $metas = $doc->getElementsByTagName('meta');
+  foreach ($metas as $meta) {
+    $name = $meta->getAttribute('name');
+    $content = $meta->getAttribute('content');
+
+    if ($name === "did:content") {
+      $postContent[] = $content;
+    }
+  }
+  return $postContent;
+}
+
+function isICOString($data)
+{
+  $header = substr($data, 0, 4);  // Extract the first 4 bytes
+  return $header === "\x00\x00\x01\x00";
+}
+
+function fetchPost($path)
+{
+  $url = "http://" . $path;
   $postContent = [];
   try {
     $res = Fetch::request([
@@ -36,17 +59,9 @@ function fetchPost($url)
       "url" => $url,
       "rawResponse" => true,
     ]);
-    $doc = new DOMDocument();
-    $doc->loadHTML($res->data);
-    $metas = $doc->getElementsByTagName('meta');
-    foreach ($metas as $meta) {
-      $name = $meta->getAttribute('name');
-      $content = $meta->getAttribute('content');
-
-      if ($name === "did:content") {
-        $postContent[] = $content;
-      }
-    }
+    $postContent = extractContent($res->data);
+    $db = new App\Db();
+    $db->savePostContent($path, $res->data);
   } catch (Exception $e) {
   }
   return $postContent;
@@ -56,9 +71,25 @@ app()->get('/avatar', function () {
   // Set max-age to a week to benefit from client caching (this is optional)
   header('Cache-Control: max-age=604800');
 
+  $domain = request()->get('value');
+
+  try {
+    $res = Fetch::request([
+      "method" => "GET",
+      "url" => "http://" . $domain . "/favicon.ico",
+      "rawResponse" => true,
+    ]);
+    if ($res->data && isICOString($res->data)) {
+      header('Content-Type: image/x-icon');
+      echo $res->data;
+      return;
+    }
+  } catch (Exception $e) {
+  }
+
   // Parse query string parameters
   $value = request()->get('value');
-  $size = 32;
+  $size = 64;
 
   // Render icon
   $icon = new \Jdenticon\Identicon();
@@ -77,9 +108,14 @@ app()->get('/posts', function () {
   $posts = $db->getPosts();
   foreach ($posts as &$post) {
     $url = "http://" . $post["path"];
-    // try to read from DB
-    // if not existing in DB cache fetch from url
-    $content = fetchPost($url);
+    $dbPost = $db->getPostContent($post["path"]);
+    $content = "";
+    if ($dbPost) {
+      $content = extractContent($dbPost["content"]);
+    } else {
+      // TODO: move DB save and estractContent here
+      $content = fetchPost($post["path"]);
+    }
     $post['content'] = $content;
     $post['owner'] = explode("/", $post["path"])[0];
     $post['url'] = $url;
