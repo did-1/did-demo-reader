@@ -123,4 +123,5 @@ app()->get('/posts', function () {
   echo $blade->make('posts', ['posts' => $posts])->render();
 });
 
+app()->config('debug', false);
 app()->run();
