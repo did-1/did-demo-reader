@@ -24,7 +24,7 @@ function convertUrlsToLinks($text)
 }
 
 app()->get('/', function () {
-  response()->page('./welcome.html');
+  response()->redirect('/posts');
 });
 
 function extractContent($data)
