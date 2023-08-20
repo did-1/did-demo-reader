@@ -2,14 +2,20 @@
 
 namespace App;
 
-db()->autoConnect();
+use Leaf\Db as LeafDb;
 
 class Db
 {
+  protected LeafDb $readerDb;
+  protected LeafDb $didDb;
   public function __construct()
   {
+    $this->readerDb = new LeafDb();
+    $this->readerDb->connect('', getenv('READER_DATABASE'), '', '', 'sqlite');
+    $this->didDb = new LeafDb();
+    $this->didDb->connect('', getenv('DID_DATABASE'), '', '', 'sqlite');
     // db()->connect(['dbtype' => 'sqlite', 'dbname' => '../instance-nodejs/did.db']);
-    db()->query("CREATE TABLE IF NOT EXISTS contents (
+    return $this->readerDb->query("CREATE TABLE IF NOT EXISTS contents (
       url TEXT PRIMARY KEY,
       content TEXT NOT NULL,
       scraped_at INTEGER NOT NULL
@@ -18,7 +24,7 @@ class Db
 
   public function getPosts()
   {
-    return db()
+    return $this->didDb
       ->select("posts", "COUNT(path) AS total, path")
       ->groupBy("path")
       ->orderBy("inserted_at", "desc")
@@ -28,13 +34,13 @@ class Db
 
   public function savePostContent($url, $content)
   {
-    return db()
+    return $this->readerDb
       ->insert("contents")
       ->params(["url" => $url, "content" => $content, "scraped_at" => time() * 1000])->execute();
   }
 
   public function getPostContent($url)
   {
-    return db()->query("SELECT * FROM contents WHERE url = ?")->bind($url)->fetchAssoc();
+    return $this->readerDb->query("SELECT * FROM contents WHERE url = ?")->bind($url)->fetchAssoc();
   }
 }
