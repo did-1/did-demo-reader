@@ -89,7 +89,7 @@ app()->get('/avatar', function () {
 
   // Parse query string parameters
   $value = request()->get('value');
-  $size = 64;
+  $size = 128;
 
   // Render icon
   $icon = new \Jdenticon\Identicon();
