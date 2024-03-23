@@ -58,7 +58,7 @@ function fetchPost($path)
       "method" => "GET",
       "url" => $url,
       "rawResponse" => true,
-      "timeout" => 3000
+      "timeout" => 3
     ]);
     $postContent = extractContent($res->data);
     $db = new App\Db();
@@ -79,7 +79,7 @@ app()->get('/avatar', function () {
       "method" => "GET",
       "url" => "http://" . $domain . "/favicon.ico",
       "rawResponse" => true,
-      "timeout" => 3000
+      "timeout" => 3
     ]);
     if ($res->data && isICOString($res->data)) {
       header('Content-Type: image/x-icon');
