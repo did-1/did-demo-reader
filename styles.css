@@ -26,6 +26,7 @@ body {
 
 .post .content {
   padding: 10px;
+  width: 100%;
 }
 
 .avatar {
@@ -57,6 +58,7 @@ body {
   margin-top: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .retweets {

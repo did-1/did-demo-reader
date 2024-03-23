@@ -30,7 +30,11 @@
             <span class="comment-count">12</span>
           </span> -->
           <span class="post-link">
-            <a href="{{$post['url']}}" class="post-link-icon">🔗</a>
+            <a href="{{$post['url']}}" class="post-link-icon"  target="_blank">🔗</a>
+          </span>
+          <span class="post-time">
+            <span class="post-time-text">{{$post['time']}}</span>
+            <span class="post-time-icon">🕒</span>
           </span>
         </div>
       </div>

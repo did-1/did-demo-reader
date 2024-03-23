@@ -24,12 +24,12 @@ class Db
 
   public function getPosts()
   {
-    return $this->didDb
-      ->select("posts", "COUNT(path) AS total, path")
-      ->groupBy("path")
-      ->orderBy("inserted_at", "desc")
-      ->limit(500)
-      ->fetchAll();
+    return $this->didDb->query(
+      "SELECT posts.*, blocks.*, (SELECT COUNT(path) FROM posts where path = path) as total FROM posts
+        LEFT JOIN blocks ON posts.block = blocks.hash
+        WHERE posts.path LIKE '%' || posts.domain || '%' 
+        ORDER BY blocks.time, posts.inserted_at DESC LIMIT 500"
+      )->fetchAll();
   }
 
   public function savePostContent($url, $content)
