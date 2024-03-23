@@ -72,6 +72,7 @@ app()->get('/avatar', function () {
   header('Cache-Control: max-age=604800');
 
   $domain = request()->get('value');
+  curl_setopt($curl, CURLOPT_TIMEOUT, 3);
 
   try {
     $res = Fetch::request([
