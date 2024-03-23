@@ -58,6 +58,9 @@ function fetchPost($path)
       "method" => "GET",
       "url" => $url,
       "rawResponse" => true,
+      "curl" => [
+        CURLOPT_TIMEOUT => 3,
+      ]
     ]);
     $postContent = extractContent($res->data);
     $db = new App\Db();
@@ -72,13 +75,15 @@ app()->get('/avatar', function () {
   header('Cache-Control: max-age=604800');
 
   $domain = request()->get('value');
-  curl_setopt($curl, CURLOPT_TIMEOUT, 3);
 
   try {
     $res = Fetch::request([
       "method" => "GET",
       "url" => "http://" . $domain . "/favicon.ico",
       "rawResponse" => true,
+      "curl" => [
+        CURLOPT_TIMEOUT => 3,
+      ]
     ]);
     if ($res->data && isICOString($res->data)) {
       header('Content-Type: image/x-icon');
