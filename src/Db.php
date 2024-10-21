@@ -31,10 +31,13 @@ class Db
   public function getPosts()
   {
     return $this->didDb->query(
-      "SELECT p1.*, blocks.*, (SELECT COUNT(path) FROM posts p2 where p2.path = p1.path) as total FROM posts p1
+        "SELECT p1.path, (SELECT COUNT(path) FROM posts p2 where p2.path = p1.path) as total,
+	MIN (blocks.time) as time,
+	MIN (p1.inserted_at) as inserted_at
+        FROM posts p1
         LEFT JOIN blocks ON p1.block = blocks.hash
-        WHERE p1.path LIKE p1.domain || '%' 
-        ORDER BY blocks.time DESC, p1.inserted_at DESC LIMIT 500"
+	GROUP BY p1.path
+        ORDER BY time DESC, inserted_at DESC LIMIT 500"
       )->fetchAll();
   }
 
