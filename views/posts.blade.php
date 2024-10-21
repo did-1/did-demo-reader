@@ -33,7 +33,7 @@
             <a href="{{$post['url']}}" class="post-link-icon"  target="_blank">🔗</a>
           </span>
           <span class="post-time">
-            <span class="post-time-text">{{$post['time']}}</span>
+            <span class="post-time-text">{{ \Carbon\Carbon::parse($post['time'])->format('Y-m-d H:i:s') }}</span>
             <span class="post-time-icon">🕒</span>
           </span>
         </div>
