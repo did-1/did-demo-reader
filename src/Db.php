@@ -15,11 +15,17 @@ class Db
     $this->didDb = new LeafDb();
     $this->didDb->connect('', getenv('DID_DATABASE'), '', '', 'sqlite');
     // db()->connect(['dbtype' => 'sqlite', 'dbname' => '../instance-nodejs/did.db']);
-    return $this->readerDb->query("CREATE TABLE IF NOT EXISTS contents (
+    $this->readerDb->query("CREATE TABLE IF NOT EXISTS contents (
       url TEXT PRIMARY KEY,
       content TEXT NOT NULL,
       scraped_at INTEGER NOT NULL
     );")->execute();
+    $this->readerDb->query("CREATE TABLE IF NOT EXISTS users (
+      domain TEXT PRIMARY KEY,
+      favicon BLOB NULL,
+      scraped_at INTEGER NOT NULL
+    );")->execute();
+    return;
   }
 
   public function getPosts()
@@ -42,5 +48,19 @@ class Db
   public function getPostContent($url)
   {
     return $this->readerDb->query("SELECT * FROM contents WHERE url = ?")->bind($url)->fetchAssoc();
+  }
+
+  public function getAvatarByDomain(string $domain)
+  {
+    $result = $this->readerDb->query("SELECT favicon FROM users WHERE domain = ?")->bind($domain)->fetchAssoc();
+    return $result;
+  }
+
+  public function saveAvatarForDomain(string $domain, string $avatarData): bool
+  {
+    return $this->readerDb
+      ->insert("users")
+      ->params(["domain" => $domain, "favicon" => $avatarData, "scraped_at" => time() * 1000])->execute();
+    return true;
   }
 }

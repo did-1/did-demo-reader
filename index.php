@@ -71,8 +71,17 @@ function fetchPost($path)
 app()->get('/avatar', function () {
   // Set max-age to a week to benefit from client caching (this is optional)
   header('Cache-Control: max-age=604800');
-
+  $db = new App\Db();
   $domain = request()->get('value');
+  $avatar = $db->getAvatarByDomain($domain);
+  if ($avatar) {
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->buffer($avatar['favicon']);
+    header("Content-Type: $mimeType");
+    header("Content-Length: " . strlen($avatar['favicon']));
+    echo $avatar['favicon'];
+    return;
+  }
 
   try {
     $res = Fetch::request([
@@ -83,6 +92,7 @@ app()->get('/avatar', function () {
     ]);
     if ($res->data && isICOString($res->data)) {
       header('Content-Type: image/x-icon');
+      $db->saveAvatarForDomain($domain, $res->data);
       echo $res->data;
       return;
     }
@@ -101,6 +111,7 @@ app()->get('/avatar', function () {
   $icon->setStyle($style);
   $icon->setValue($value);
   $icon->setSize($size);
+  $db->saveAvatarForDomain($domain, $icon->getImageData());
   $icon->displayImage('png');
 });
 
